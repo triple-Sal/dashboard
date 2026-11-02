@@ -52,6 +52,7 @@ export async function getContainers(sheetCfg, cfg) {
   const all = rows.slice(cfg.headerRow)
     .map(r => ({
       file: text(r[c.file]),
+      status: text(r[c.status]),
       arrival: toDate(r[c.arrival]),
       fruit: text(r[c.fruit]),
       variety: text(r[c.variety]),
@@ -59,14 +60,19 @@ export async function getContainers(sheetCfg, cfg) {
       supplier: text(r[c.supplier]),
       importer: text(r[c.importer]),
     }))
-    .filter(i => i.arrival && i.arrival >= from)
-    .sort((a, b) => a.arrival.localeCompare(b.arrival));
+    .sort((a, b) => (a.arrival || '').localeCompare(b.arrival || ''));
 
-  // המכולות שמגיעות בימים הקרובים; אם אין – הבאות בתור
-  let items = all.filter(i => i.arrival <= to);
+  // מכולות בשחרור – תמיד מוצגות ראשונות, בלי קשר לתאריך
+  const isRelease = (i) => cfg.releaseStatus && i.status === cfg.releaseStatus;
+  const release = all.filter(isRelease).map(i => ({ ...i, release: true }));
+
+  // שאר המכולות: אלה שמגיעות בימים הקרובים; אם אין – הבאות בתור
+  const upcoming = all.filter(i => !isRelease(i) && i.arrival && i.arrival >= from);
+  let items = upcoming.filter(i => i.arrival <= to);
   const fallback = items.length === 0;
-  if (fallback) items = all.slice(0, cfg.fallbackCount ?? 3);
+  if (fallback) items = upcoming.slice(0, cfg.fallbackCount ?? 3);
+  items = [...release, ...items];
 
-  console.log(`containers: ${items.length} in the next ${cfg.daysAhead} days`);
+  console.log(`containers: ${release.length} in release, ${items.length - release.length} upcoming`);
   return { from, to, fallback, items };
 }

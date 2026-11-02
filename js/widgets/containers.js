@@ -29,6 +29,7 @@ function dayLabel(iso) {
   if (iso === today) return `היום · ${date}`;
   if (iso === tomorrow) return `מחר · ${date}`;
   const days = Math.round((new Date(iso + 'T12:00:00') - new Date(today + 'T12:00:00')) / 86400000);
+  if (days < 0) return `${date} · לפני ${-days} ימים`;
   if (days > 7) return `${d.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric', year: '2-digit' })} · בעוד ${days} ימים`;
   return `${d.toLocaleDateString('he-IL', { weekday: 'long' })} · ${date}`;
 }
@@ -39,7 +40,7 @@ function card(c, i) {
     ? `<img class="c-flag" src="https://flagcdn.com/${flag}.svg" alt="${esc(c.origin)}">`
     : `<span class="c-flag c-globe">${icon('globe')}</span>`;
   return `
-    <article class="container-card">
+    <article class="container-card${c.release ? ' release' : ''}">
       <div class="c-visual">
         ${containerSvg(COLORS[i % COLORS.length])}
         <div class="c-inside">
@@ -47,9 +48,10 @@ function card(c, i) {
           <img class="c-fruit" src="${twemoji(fruitIcon(c.fruit))}" alt="">
         </div>
         <span class="c-file" title="מספר תיק">#${esc(c.file)}</span>
+        ${c.release ? `<span class="c-badge">${icon('alert')} ${esc(c.status)}</span>` : ''}
       </div>
       <div class="c-info">
-        <div class="c-date">${icon('calendar')}<span>${dayLabel(c.arrival)}</span></div>
+        ${c.arrival ? `<div class="c-date">${icon('calendar')}<span>${dayLabel(c.arrival)}</span></div>` : ''}
         <div class="c-title">${esc(c.fruit)}${c.variety ? ` <span class="c-variety">${esc(c.variety)}</span>` : ''}</div>
         <div class="c-line">${icon('pin')}<span>${esc(c.origin) || '—'}</span></div>
         <div class="c-line" title="ספק"><b>ספק:</b><span>${esc(c.supplier) || '—'}</span></div>
@@ -77,6 +79,6 @@ export async function renderContainers(el) {
       <span class="c-total">${data.items.length} ${data.items.length === 1 ? 'מכולה' : 'מכולות'}</span>
       <span class="updated">${timeAgo(data.updated)}</span>
     </div>
-    ${data.fallback && cards ? `<p class="note c-fallback">אין הגעות ב-${cfg.daysAhead} הימים הקרובים, אז מוצגות המכולות הבאות בתור</p>` : ''}
+    ${data.fallback && data.items.some(i => !i.release) ? `<p class="note c-fallback">אין הגעות ב-${cfg.daysAhead} הימים הקרובים, אז מוצגות המכולות הבאות בתור</p>` : ''}
     ${cards ? `<div class="c-grid">${cards}</div>` : '<p class="error">אין מכולות צפויות בימים הקרובים 🌿</p>'}`;
 }
