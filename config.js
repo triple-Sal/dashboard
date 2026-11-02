@@ -13,10 +13,11 @@ export const CONFIG = {
     israel: {
       label: 'חדשות ישראל',
       source: 'N12',
-      // כתובות RSS (רשימת כותרות) שהרובוט ינסה לפי הסדר
+      // כתובות RSS (רשימות כותרות). הרובוט מאחד את כולן ומציג את החדשות ביותר
       rss: [
-        'https://rcs.mako.co.il/rss/31750a2610f26110VgnVCM1000005201000aRCRD.xml',
-        'https://rcs.mako.co.il/rss/news-israel.xml',
+        'https://rcs.mako.co.il/rss/news-israel.xml',     // חדשות בארץ
+        'https://rcs.mako.co.il/rss/news-military.xml',   // פוליטי וביטחוני
+        'https://rcs.mako.co.il/rss/news-law.xml',        // פלילים ומשפט
       ],
       // אם ה-RSS לא עובד, הרובוט יקרא את דף האתר עצמו
       page: 'https://www.mako.co.il/news',
@@ -28,8 +29,6 @@ export const CONFIG = {
       source: 'FreshPlaza',
       rss: [
         'https://www.freshplaza.com/europe/rss.xml/',
-        'https://www.freshplaza.com/europe/rss.xml',
-        'https://www.freshplaza.com/rss.xml/',
       ],
       page: 'https://www.freshplaza.com/europe/',
       articlePattern: '/article/',

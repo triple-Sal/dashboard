@@ -73,17 +73,21 @@ function scrapePage(html, baseUrl, pattern) {
 }
 
 async function getNews(src) {
+  // אוספים מכל כתובות ה-RSS, מאחדים, מסירים כפילויות וממיינים מהחדש לישן
+  const all = [];
   for (const url of src.rss) {
-    try {
-      const items = parseRss(await fetchText(url));
-      if (items.length) return items;
-    } catch (e) { console.warn('RSS failed:', e.message); }
+    try { all.push(...parseRss(await fetchText(url))); }
+    catch (e) { console.warn('RSS failed:', e.message); }
   }
-  try {
-    const items = scrapePage(await fetchText(src.page), src.page, src.articlePattern);
-    if (items.length) return items;
-  } catch (e) { console.warn('Page failed:', e.message); }
-  throw new Error(`No news from ${src.source}`);
+  if (!all.length) {
+    try { all.push(...scrapePage(await fetchText(src.page), src.page, src.articlePattern)); }
+    catch (e) { console.warn('Page failed:', e.message); }
+  }
+  if (!all.length) throw new Error(`No news from ${src.source}`);
+  const seen = new Set();
+  return all
+    .filter(i => !seen.has(i.title) && seen.add(i.title))
+    .sort((a, b) => (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0));
 }
 
 // ---------- שווקים (Yahoo Finance) ----------
