@@ -9,7 +9,7 @@ export function renderClock(el) {
     const now = new Date();
     el.innerHTML = `
       <div class="clock-main">
-        <div class="time">${time(main.zone)}</div>
+        <div class="time">${main.flag ? `<img class="clock-flag big" src="https://flagcdn.com/${main.flag}.svg" alt="">` : ''}${time(main.zone)}</div>
         <div class="date">${now.toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: main.zone })}</div>
       </div>
       ${others.map(c => {

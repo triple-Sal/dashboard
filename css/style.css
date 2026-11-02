@@ -111,10 +111,9 @@ body[data-time="night"] .cloud { background: rgba(200, 215, 230, 0.14); }
 
 .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .brand { display: flex; }
-.brand img {
-  height: 64px; width: auto; display: block;
-  background: #fff; border-radius: 18px; padding: 8px 18px;
-  box-shadow: var(--shadow);
+.brand img { height: 72px; width: auto; display: block; filter: drop-shadow(0 2px 6px rgba(255,255,255,.5)); }
+body[data-time="night"] .brand img, body[data-time="evening"] .brand img {
+  filter: drop-shadow(0 0 1px rgba(255,255,255,.9)) drop-shadow(0 0 10px rgba(255,255,255,.35));
 }
 .clock { display: flex; align-items: center; gap: 12px; direction: rtl; }
 .clock .time { font-variant-numeric: tabular-nums; line-height: 1; }
@@ -135,7 +134,7 @@ body[data-time="night"] .cloud { background: rgba(200, 215, 230, 0.14); }
   display: flex; align-items: center; justify-content: center; gap: 6px; direction: ltr; letter-spacing: .04em; font-weight: 500; }
 .clock-flag { width: 20px; height: 14px; object-fit: cover; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 .clock-other .time { font-size: 1.25rem; font-weight: 500; }
-@media (max-width: 700px) { .brand img { height: 48px; } .clock-main .time { font-size: 1.7rem; } }
+@media (max-width: 700px) { .brand img { height: 52px; } .clock-main .time { font-size: 1.7rem; } }
 
 .cards {
   display: grid; gap: 18px;
@@ -349,3 +348,5 @@ body[data-sky="fog"] .fog { opacity: 1; }
 body[data-time="night"][data-sky="fog"] .fog { opacity: .35; }
 
 @media (prefers-reduced-motion: reduce) { .rain, .cloud, .stars, .flash { animation: none; } }
+.clock-main .time { display: flex; align-items: center; justify-content: center; gap: 10px; direction: ltr; }
+.clock-flag.big { width: 30px; height: 21px; border-radius: 3px; }
