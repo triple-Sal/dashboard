@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PROJECT: roy-dashboard              # שם האתר ב-Cloudflare
-      CLOUDFLARE_ACCOUNT_ID: ''           # מספר החשבון ב-Cloudflare (לא סודי)
+      CLOUDFLARE_ACCOUNT_ID: '8e5f4cfb3ed2450d89feae6ad14f7e48'         # מספר החשבון ב-Cloudflare (לא סודי)
       HAS_CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
     environment:
       name: github-pages
