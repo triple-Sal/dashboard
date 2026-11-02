@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>הדאשבורד שלי</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛰️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- רקע ההרים (ציור בשכבות) -->
+  <div class="scenery" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <svg class="mountains" viewBox="0 0 1440 420" preserveAspectRatio="none">
+      <path class="m-far"  d="M0 260 L120 170 L210 220 L330 110 L450 200 L560 140 L690 230 L820 90 L950 190 L1060 130 L1190 210 L1310 120 L1440 190 L1440 420 L0 420Z"/>
+      <path class="snow"   d="M330 110 L300 136 L318 132 L333 142 L350 128 L362 134Z M820 90 L788 118 L806 113 L822 124 L840 110 L854 116Z M1310 120 L1282 146 L1298 141 L1312 150 L1328 138 L1340 144Z"/>
+      <path class="m-mid"  d="M0 300 L150 220 L280 280 L420 200 L560 290 L700 210 L860 300 L1000 230 L1150 300 L1290 240 L1440 290 L1440 420 L0 420Z"/>
+      <path class="m-near" d="M0 350 C180 300 300 330 420 320 C560 305 680 360 820 340 C980 318 1100 300 1240 330 C1330 348 1400 340 1440 335 L1440 420 L0 420Z"/>
+    </svg>
+    <div class="trees"></div>
+  </div>
+
+  <main class="dashboard">
+    <!-- כותרת עליונה + שעון -->
+    <header class="top">
+      <h1 id="title"><span class="ico" data-icon="mountain"></span><span>הדאשבורד שלי</span></h1>
+      <div class="clock" id="clock"></div>
+    </header>
+
+    <!-- באנר 1: חדשות ישראל -->
+    <section class="ticker glass" id="ticker-israel"></section>
+
+    <!-- שלושת הכרטיסים -->
+    <div class="cards">
+      <section class="card glass" id="weather"></section>
+      <section class="card glass" id="currency"></section>
+      <section class="card glass" id="indices"></section>
+    </div>
+
+    <!-- באנר 2: חדשות חו"ל -->
+    <section class="ticker glass" id="ticker-world"></section>
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
