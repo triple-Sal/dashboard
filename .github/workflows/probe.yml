@@ -1,0 +1,8 @@
+name: probe
+on: { push: { branches: [probe2] } }
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -s -m 20 -w "\nHTTP %{http_code}\n" "https://api.open-meteo.com/v1/forecast?latitude=32.0853&longitude=34.7818&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&forecast_days=4&timezone=Asia%2FJerusalem" | head -c 1500
