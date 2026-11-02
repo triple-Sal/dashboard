@@ -11,13 +11,14 @@ import { renderCurrency } from './widgets/currency.js';
 import { renderIndices } from './widgets/indices.js';
 import { renderWeather } from './widgets/weather.js';
 import { renderContainers } from './widgets/containers.js';
+import { initScene } from './scene.js';
 
 const $ = id => document.getElementById(id);
 const R = CONFIG.refreshMinutes;
 
 document.title = CONFIG.title;
-$('title').lastElementChild.textContent = CONFIG.title;
 fillIcons();
+initScene();
 
 renderClock($('clock'));
 every(R.news,    () => renderTicker($('ticker-israel'), CONFIG.news.israel, 'news-israel.json'));

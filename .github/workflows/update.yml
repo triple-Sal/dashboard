@@ -62,7 +62,7 @@ jobs:
       - name: Prepare site folder
         run: |
           mkdir -p _site
-          cp -r index.html config.js css js data _site/
+          cp -r index.html config.js css js data assets _site/
 
       # העלאה ל-Cloudflare (האתר המוגן)
       - name: Deploy to Cloudflare Pages

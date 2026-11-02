@@ -23,26 +23,24 @@
   --shadow: 0 10px 30px rgba(31, 58, 44, 0.15);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --sky-top: #0f1d2e;
-    --sky-bottom: #2a3e4a;
-    --m-far: #2e4456;
-    --m-mid: #24413a;
-    --m-near: #17302a;
-    --tree: #10241e;
-    --snow: #cfdbe6;
-    --sun: #f2efd8;          /* בלילה השמש הופכת לירח */
+body[data-time="night"] {
+  --sky-top: #0f1d2e;
+  --sky-bottom: #2a3e4a;
+  --m-far: #2e4456;
+  --m-mid: #24413a;
+  --m-near: #17302a;
+  --tree: #10241e;
+  --snow: #cfdbe6;
+  --sun: #f2efd8;          /* בלילה השמש הופכת לירח */
 
-    --glass: rgba(18, 34, 30, 0.6);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --text: #e6f0ea;
-    --muted: #9db5a8;
-    --accent: #7fd1a6;
-    --up: #5fd690;
-    --down: #ff8a7f;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  }
+  --glass: rgba(18, 34, 30, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --text: #e6f0ea;
+  --muted: #9db5a8;
+  --accent: #7fd1a6;
+  --up: #5fd690;
+  --down: #ff8a7f;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,7 +82,7 @@ body {
 .c2 { width: 100px; top: 26vh; animation-duration: 160s; animation-delay: -60s; opacity: .8; }
 .c3 { width: 150px; top: 6vh;  animation-duration: 200s; animation-delay: -130s; opacity: .6; }
 @keyframes drift { from { transform: translateX(-20vw); } to { transform: translateX(120vw); } }
-@media (prefers-color-scheme: dark) { .cloud { background: rgba(200, 215, 230, 0.12); } }
+body[data-time="night"] .cloud { background: rgba(200, 215, 230, 0.14); }
 
 /* שורת עצי אורן בתחתית */
 .trees {
@@ -112,11 +110,29 @@ body {
 }
 
 .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
-.top h1 { display: flex; align-items: center; gap: 10px; font-size: 1.9rem; font-weight: 700; }
-.top h1 .ico svg { width: 34px; height: 34px; color: var(--accent); }
-.clock { text-align: left; }
-.clock .time { font-size: 2rem; font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1; }
-.clock .date { color: var(--muted); font-size: .95rem; margin-top: 4px; }
+.brand { display: flex; }
+.brand img {
+  height: 64px; width: auto; display: block;
+  background: #fff; border-radius: 18px; padding: 8px 18px;
+  box-shadow: var(--shadow);
+}
+.clock { display: flex; align-items: center; gap: 12px; direction: rtl; }
+.clock .time { font-variant-numeric: tabular-nums; line-height: 1; }
+.clock-main {
+  text-align: center; padding: 8px 18px; border-radius: 14px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.clock-main .time { font-size: 2rem; font-weight: 500; }
+.clock-main .date { color: var(--muted); font-size: .9rem; margin-top: 4px; }
+.clock-other {
+  text-align: center; padding: 8px 14px; border-radius: 14px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.clock-other .label { font-size: .8rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap; }
+.clock-other .time { font-size: 1.25rem; font-weight: 500; }
+@media (max-width: 700px) { .brand img { height: 48px; } .clock-main .time { font-size: 1.7rem; } }
 
 .cards {
   display: grid; gap: 18px;
@@ -146,7 +162,7 @@ body {
   background: var(--accent);
   z-index: 1;
 }
-@media (prefers-color-scheme: dark) { .ticker-label { color: #0f1d18; } }
+body[data-time="night"] .ticker-label { color: #0f1d18; }
 .ticker-label .ico svg { width: 22px; height: 22px; }
 .ticker-window { flex: 1; overflow: hidden; position: relative; display: flex; align-items: center; }
 .ticker-track { display: flex; width: max-content; animation: scroll-rtl linear infinite; }
@@ -212,7 +228,7 @@ body {
 
 /* ---------- מכולות ---------- */
 .c-total { background: var(--accent); color: #fff; border-radius: 999px; padding: 2px 12px; font-size: .85rem; font-weight: 500; }
-@media (prefers-color-scheme: dark) { .c-total { color: #0f1d18; } }
+body[data-time="night"] .c-total { color: #0f1d18; }
 .c-day + .c-day { margin-top: 20px; }
 .c-day h3 { font-size: 1rem; font-weight: 500; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
 .c-count { font-size: .8rem; background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); border-radius: 999px; padding: 0 9px; }
@@ -243,3 +259,90 @@ body {
   color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); border-radius: 999px; padding: 2px 10px; margin-bottom: 4px; }
 .c-date svg { width: 14px; height: 14px; }
 .c-fallback { margin: -6px 0 14px; }
+
+/* ============================================================
+   רקע דינמי: שעה ביום (data-time) ומזג אוויר (data-sky)
+   ============================================================ */
+body { transition: background 2s; }
+.mountains path, .sun { transition: fill 2s, background 2s, top 2s, left 2s, opacity 2s; }
+
+/* בוקר: שמיים ורדרדים, שמש נמוכה במזרח */
+body[data-time="morning"] {
+  --sky-top: #8fb9dd;
+  --sky-bottom: #fbd7b8;
+  --m-far: #b4b5c9;
+  --m-mid: #7e9c86;
+  --m-near: #46705a;
+  --sun: #ffd28a;
+}
+body[data-time="morning"] .sun { top: 30vh; left: 6vw; }
+
+/* ערב: שקיעה כתומה-סגולה, שמש נמוכה במערב */
+body[data-time="evening"] {
+  --sky-top: #46508a;
+  --sky-bottom: #f4a96b;
+  --m-far: #8a7a9c;
+  --m-mid: #5d6a6e;
+  --m-near: #34503f;
+  --snow: #fde3d0;
+  --sun: #ff9d5c;
+}
+body[data-time="evening"] .sun { top: 34vh; left: 82vw; }
+
+/* לילה: ירח וכוכבים */
+body[data-time="night"] .sun { width: 80px; height: 80px; top: 8vh; left: 14vw; box-shadow: 0 0 60px 12px rgba(242, 239, 216, .25); }
+.stars {
+  position: absolute; inset: 0 0 45% 0; opacity: 0; transition: opacity 2s;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent), radial-gradient(1px 1px at 25% 60%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 40% 15%, #fff, transparent), radial-gradient(1px 1px at 55% 45%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 70% 25%, #fff, transparent), radial-gradient(1px 1px at 85% 55%, #fff, transparent),
+    radial-gradient(1px 1px at 92% 12%, #fff, transparent), radial-gradient(1.5px 1.5px at 33% 35%, #fff, transparent),
+    radial-gradient(1px 1px at 62% 8%, #fff, transparent), radial-gradient(1px 1px at 78% 40%, #fff, transparent);
+}
+body[data-time="night"] .stars { opacity: .8; animation: twinkle 6s ease-in-out infinite alternate; }
+@keyframes twinkle { to { opacity: .45; } }
+
+/* עננים נוספים – מופיעים רק במעונן/גשום */
+.c4 { width: 180px; top: 18vh; animation-duration: 140s; animation-delay: -30s; }
+.c5 { width: 140px; top: 4vh;  animation-duration: 110s; animation-delay: -90s; }
+.c6 { width: 200px; top: 30vh; animation-duration: 170s; animation-delay: -10s; }
+.cloud.extra { display: none; }
+body[data-sky="cloudy"] .cloud.extra, body[data-sky="rain"] .cloud.extra,
+body[data-sky="storm"] .cloud.extra { display: block; }
+body[data-sky="clear"] .c2, body[data-sky="clear"] .c3 { display: none; }
+
+/* מעונן / גשום: השמיים מאפירים והשמש נעלמת */
+.overcast { position: absolute; inset: 0; background: #7f8a93; opacity: 0; transition: opacity 2s; pointer-events: none; }
+body[data-sky="cloudy"] .overcast { opacity: .28; }
+body[data-sky="rain"] .overcast   { opacity: .4; }
+body[data-sky="storm"] .overcast  { opacity: .55; }
+body[data-sky="cloudy"] .sun, body[data-sky="rain"] .sun, body[data-sky="storm"] .sun, body[data-sky="fog"] .sun { opacity: 0; }
+body[data-sky="partly"] .sun { opacity: .85; }
+body[data-sky="rain"] .cloud, body[data-sky="storm"] .cloud { background: rgba(150, 160, 170, .85); }
+body[data-time="night"][data-sky="rain"] .cloud, body[data-time="night"][data-sky="storm"] .cloud { background: rgba(90, 100, 115, .6); }
+
+/* גשם */
+.rain {
+  position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 2s;
+  background-image:
+    linear-gradient(105deg, transparent 49.5%, rgba(255,255,255,.55) 50%, transparent 50.5%),
+    linear-gradient(105deg, transparent 49.5%, rgba(255,255,255,.35) 50%, transparent 50.5%);
+  background-size: 24px 60px, 37px 90px;
+  animation: rain .5s linear infinite;
+}
+body[data-sky="rain"] .rain, body[data-sky="storm"] .rain { opacity: .6; }
+@keyframes rain { to { background-position: -16px 60px, -24px 90px; } }
+
+/* ברקים בסערה */
+.flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+body[data-sky="storm"] .flash { animation: flash 9s infinite; }
+@keyframes flash { 0%, 92%, 96%, 100% { opacity: 0; } 93%, 95% { opacity: .5; } }
+
+/* ערפל */
+.fog { position: absolute; inset: 0; opacity: 0; transition: opacity 2s; pointer-events: none;
+  background: linear-gradient(to top, rgba(235,238,240,.9), rgba(235,238,240,.35) 60%, rgba(235,238,240,.1)); }
+body[data-sky="fog"] .fog { opacity: 1; }
+body[data-time="night"][data-sky="fog"] .fog { opacity: .35; }
+
+@media (prefers-reduced-motion: reduce) { .rain, .cloud, .stars, .flash { animation: none; } }

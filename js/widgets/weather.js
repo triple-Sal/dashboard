@@ -2,6 +2,7 @@
 import { CONFIG } from '../../config.js';
 import { icon } from '../icons.js';
 import { timeAgo } from '../utils.js';
+import { setWeatherScene } from '../scene.js';
 
 // קודי מזג האוויר הבינלאומיים: [תיאור בעברית, אייקון]
 const CODES = {
@@ -22,7 +23,7 @@ export async function renderWeather(el) {
   const w = CONFIG.weather;
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${w.latitude}&longitude=${w.longitude}`
     + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day'
-    + '&daily=weather_code,temperature_2m_max,temperature_2m_min'
+    + '&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset'
     + `&forecast_days=${w.forecastDays + 1}&timezone=Asia%2FJerusalem`;
 
   let d;
@@ -30,6 +31,9 @@ export async function renderWeather(el) {
   catch { el.innerHTML = '<p class="error">לא הצלחתי לטעון את מזג האוויר</p>'; return; }
 
   const now = d.current;
+  // הרקע משתנה לפי מזג האוויר והשעה (זריחה/שקיעה בזמן ישראל)
+  const toUtc = (local) => local && new Date(Date.parse(local + 'Z') - (d.utc_offset_seconds || 0) * 1000);
+  setWeatherScene({ code: now.weather_code, sunrise: toUtc(d.daily.sunrise?.[0]), sunset: toUtc(d.daily.sunset?.[0]) });
   const [desc, ico] = info(now.weather_code);
   const nowIcon = !now.is_day && ico === 'sun' ? 'moon' : ico;
 
