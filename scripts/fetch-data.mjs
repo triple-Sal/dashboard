@@ -131,7 +131,7 @@ async function save(file, producer) {
     if (!data) return;
   }
   await writeFile(new URL(file, DATA_DIR), JSON.stringify(data, null, 2));
-  console.log('✔', file);
+  console.log('✔', file, JSON.stringify(data).slice(0, 400));
 }
 
 await mkdir(DATA_DIR, { recursive: true });
