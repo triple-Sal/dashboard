@@ -126,6 +126,7 @@ body[data-time="night"] .cloud { background: rgba(200, 215, 230, 0.14); }
 .clock-main .time { font-size: 2rem; font-weight: 500; }
 .clock-main .date { color: var(--muted); font-size: .9rem; margin-top: 4px; }
 .clock-other {
+  width: 150px; box-sizing: border-box;   /* כל השעונים הקטנים באותו גודל */
   text-align: center; padding: 8px 14px; border-radius: 14px;
   background: var(--glass); border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);

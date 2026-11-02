@@ -12,7 +12,7 @@ export const CONFIG = {
   // הראשון מוצג גדול. אזורי זמן: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   clocks: [
     { label: 'ישראל',      zone: 'Asia/Jerusalem' },
-    { label: 'סין',        zone: 'Asia/Shanghai' },
+    { label: 'CHINA',      zone: 'Asia/Shanghai' },
     { label: 'וושינגטון (WA)', zone: 'America/Los_Angeles' },
   ],
 
