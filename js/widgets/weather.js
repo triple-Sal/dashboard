@@ -27,8 +27,20 @@ export async function renderWeather(el) {
     + `&forecast_days=${w.forecastDays + 1}&timezone=Asia%2FJerusalem`;
 
   let d;
-  try { d = await (await fetch(url)).json(); }
-  catch { el.innerHTML = '<p class="error">לא הצלחתי לטעון את מזג האוויר</p>'; return; }
+  try {
+    const res = await fetch(url);
+    d = await res.json();
+    if (!res.ok || !d.current || !d.daily) throw new Error(d.reason || `HTTP ${res.status}`);
+  } catch (e) {
+    console.warn('weather failed:', e);
+    // אם כבר מוצג מזג אוויר, משאירים אותו; אחרת מציגים הודעה ומנסים שוב בעוד דקה
+    if (!el.querySelector('.weather-now')) {
+      el.innerHTML = `<div class="card-head"><span class="ico">${icon('pin')}</span><h2>מזג האוויר ב${w.city}</h2></div>
+        <p class="error">לא הצלחתי לטעון את מזג האוויר כרגע, מנסה שוב...</p>`;
+    }
+    setTimeout(() => renderWeather(el), 60 * 1000);
+    return;
+  }
 
   const now = d.current;
   // הרקע משתנה לפי מזג האוויר והשעה (זריחה/שקיעה בזמן ישראל)
