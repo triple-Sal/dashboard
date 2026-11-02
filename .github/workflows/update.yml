@@ -35,16 +35,27 @@ jobs:
       # הנתונים מהריצה הקודמת, למקרה שמקור כלשהו לא זמין כרגע
       - uses: actions/cache/restore@v4
         with:
-          path: data
+          path: |
+            data/news-israel.json
+            data/news-world.json
+            data/markets.json
           key: data-${{ github.run_id }}
           restore-keys: data-
 
-      - name: Collect news and market data
+      - name: Install tools
+        run: npm install --no-audit --no-fund
+
+      - name: Collect news, market and container data
         run: node scripts/fetch-data.mjs
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - uses: actions/cache/save@v4
         with:
-          path: data
+          path: |
+            data/news-israel.json
+            data/news-world.json
+            data/markets.json
           key: data-${{ github.run_id }}
 
       # מכינים תיקייה נקייה רק עם קבצי האתר

@@ -46,8 +46,8 @@ export const CONFIG = {
 
   // ---------- מדדים ----------
   indices: [
-    { name: 'ת"א 35',  country: 'ישראל', flag: '🇮🇱', yahoo: 'TA35.TA' },
-    { name: 'S&P 500', country: 'ארה"ב', flag: '🇺🇸', yahoo: '^GSPC' },
+    { name: 'ת"א 35',  country: 'ישראל', flag: 'il', yahoo: 'TA35.TA' },
+    { name: 'S&P 500', country: 'ארה"ב', flag: 'us', yahoo: '^GSPC' },
   ],
 
   // ---------- מזג אוויר ----------
@@ -62,6 +62,24 @@ export const CONFIG = {
   sheet: {
     // הלינק לקובץ (גוגל דרייב). הרובוט קורא אותו בעזרת "חשבון הרובוט", בהרשאת צפייה בלבד
     url: 'https://docs.google.com/spreadsheets/d/1UL4D0P7jezyUxBx_GwlHgEBMmYkc1bRm/edit',
+  },
+
+  // ---------- מכולות שמגיעות בקרוב (מתוך הטבלה) ----------
+  containers: {
+    title: 'מכולות בדרך',
+    tab: 'ייבוא',        // שם הלשונית בקובץ
+    headerRow: 6,        // באיזו שורה נמצאות כותרות העמודות
+    daysAhead: 7,        // כמה ימים קדימה להציג
+    // איזו עמודה מכילה כל פרט
+    columns: {
+      file: 'A',         // מספר תיק
+      arrival: 'E',      // תאריך הגעה
+      fruit: 'G',        // סוג פרי
+      variety: 'H',      // תת-זן
+      origin: 'I',       // מדינת מקור
+      supplier: 'K',     // ספק
+      importer: 'L',     // יבואן
+    },
   },
 
   // ---------- כל כמה זמן לרענן את המסך (בדקות) ----------

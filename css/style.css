@@ -121,7 +121,7 @@ body {
 .cards {
   display: grid; gap: 18px;
   grid-template-columns: 1.3fr 1fr 1fr;
-  flex: 1; align-content: start;
+  align-content: start;
 }
 @media (max-width: 1100px) { .cards { grid-template-columns: 1fr 1fr; } .cards > :first-child { grid-column: 1 / -1; } }
 @media (max-width: 700px)  { .cards { grid-template-columns: 1fr; } .dashboard { padding: 16px; } }
@@ -206,3 +206,39 @@ body {
 
 .note { color: var(--muted); font-size: .8rem; margin-top: 12px; }
 .error { color: var(--muted); padding: 10px 0; }
+
+/* ---------- דגלים ---------- */
+.flag { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--glass); }
+
+/* ---------- מכולות ---------- */
+.c-total { background: var(--accent); color: #fff; border-radius: 999px; padding: 2px 12px; font-size: .85rem; font-weight: 500; }
+@media (prefers-color-scheme: dark) { .c-total { color: #0f1d18; } }
+.c-day + .c-day { margin-top: 20px; }
+.c-day h3 { font-size: 1rem; font-weight: 500; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.c-count { font-size: .8rem; background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); border-radius: 999px; padding: 0 9px; }
+.c-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.container-card {
+  border-radius: 16px; overflow: hidden;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  transition: transform .2s;
+}
+.container-card:hover { transform: translateY(-3px); }
+.c-visual { position: relative; height: 104px; margin: 12px 12px 0; }
+.c-visual .box { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,.18)); }
+.c-inside { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 18px; }
+.c-flag { width: 54px; height: 38px; object-fit: cover; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,.3); background: #fff; }
+.c-globe { display: grid; place-items: center; color: #2f6f8f; }
+.c-globe svg { width: 26px; height: 26px; }
+.c-fruit { width: 50px; height: 50px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.3)); background: rgba(255,255,255,.85); border-radius: 50%; padding: 6px; }
+.c-file { position: absolute; bottom: 12px; left: 10px; font-size: .7rem; color: #fff; opacity: .85; direction: ltr; font-variant-numeric: tabular-nums; }
+.c-info { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px; font-size: .92rem; }
+.c-title { font-weight: 700; font-size: 1.05rem; }
+.c-variety { font-weight: 400; color: var(--muted); font-size: .9rem; }
+.c-line { display: flex; align-items: center; gap: 6px; color: var(--text); }
+.c-line b { font-weight: 500; color: var(--muted); }
+.c-line svg { width: 15px; height: 15px; color: var(--accent); flex-shrink: 0; }
+.c-line span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.c-date { display: inline-flex; align-self: flex-start; align-items: center; gap: 6px; font-weight: 500; font-size: .85rem;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); border-radius: 999px; padding: 2px 10px; margin-bottom: 4px; }
+.c-date svg { width: 14px; height: 14px; }

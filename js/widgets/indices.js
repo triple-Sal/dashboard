@@ -14,7 +14,7 @@ export async function renderIndices(el) {
     const dir = q.change > 0 ? 'up' : q.change < 0 ? 'down' : 'flat';
     return `
       <div class="row">
-        <div class="badge">${i.flag}</div>
+        <div class="badge"><img class="flag" src="https://flagcdn.com/${i.flag}.svg" alt="${i.country}"></div>
         <div><div class="name">${i.name}</div><div class="sub">${i.country}</div></div>
         <div class="value">
           <div class="price">${fmt(q.price)}</div>

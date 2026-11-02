@@ -6,6 +6,7 @@
 
 import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { CONFIG } from '../config.js';
+import { getContainers } from './containers.mjs';
 
 const DATA_DIR = new URL('../data/', import.meta.url);
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36';
@@ -163,3 +164,8 @@ await save('markets.json', async () => {
   if (!currencies.length && !indices.length) throw new Error('no market data');
   return { currencies, indices };
 });
+
+// ---------- מכולות מהטבלה (רק אם מפתח הרובוט של גוגל קיים) ----------
+if (process.env.GOOGLE_SERVICE_ACCOUNT && CONFIG.containers) {
+  await save('containers.json', () => getContainers(CONFIG.sheet, CONFIG.containers));
+}

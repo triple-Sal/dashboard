@@ -10,6 +10,7 @@ import { renderTicker } from './widgets/news-ticker.js';
 import { renderCurrency } from './widgets/currency.js';
 import { renderIndices } from './widgets/indices.js';
 import { renderWeather } from './widgets/weather.js';
+import { renderContainers } from './widgets/containers.js';
 
 const $ = id => document.getElementById(id);
 const R = CONFIG.refreshMinutes;
@@ -24,3 +25,4 @@ every(R.news,    () => renderTicker($('ticker-world'),  CONFIG.news.world,  'new
 every(R.markets, () => renderCurrency($('currency')));
 every(R.markets, () => renderIndices($('indices')));
 every(R.weather, () => renderWeather($('weather')));
+every(R.markets, () => renderContainers($('containers')));
