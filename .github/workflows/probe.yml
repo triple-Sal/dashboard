@@ -1,0 +1,27 @@
+name: probe
+on: { push: { branches: [probe] } }
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124"
+          for u in \
+            https://rcs.mako.co.il/rss/news-israel.xml \
+            https://rcs.mako.co.il/rss/news-military.xml \
+            https://rcs.mako.co.il/rss/news-world.xml \
+            https://rcs.mako.co.il/rss/news-law.xml \
+            https://rcs.mako.co.il/rss/news-politics.xml \
+            https://rcs.mako.co.il/rss/31750a2610f26110VgnVCM1000005201000aRCRD.xml \
+            https://www.n12.co.il/rss \
+            https://www.mako.co.il/rss \
+            https://www.n12.co.il/ \
+            https://www.mako.co.il/news \
+            "https://news.google.com/rss/search?q=site:n12.co.il+OR+site:mako.co.il/news&hl=he&gl=IL&ceid=IL:he" ; do
+            echo "=== $u"
+            curl -sL -m 20 -A "$UA" -o o.txt -w "%{http_code} %{url_effective} %{size_download}\n" "$u"
+            grep -o '<title>[^<]*</title>\|<title><!\[CDATA\[[^]]*' o.txt | head -4
+            grep -o '<pubDate>[^<]*' o.txt | head -2
+            grep -o 'href="[^"]*Article-[^"]*"' o.txt | head -3
+            grep -o 'href="[^"]*/news[^"]*"' o.txt | head -3
+          done
