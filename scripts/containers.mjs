@@ -49,7 +49,7 @@ export async function getContainers(sheetCfg, cfg) {
   const to = israelDate(cfg.daysAhead);
   const c = Object.fromEntries(Object.entries(cfg.columns).map(([k, l]) => [k, colIndex(l)]));
 
-  const items = rows.slice(cfg.headerRow)
+  const all = rows.slice(cfg.headerRow)
     .map(r => ({
       file: text(r[c.file]),
       arrival: toDate(r[c.arrival]),
@@ -59,9 +59,14 @@ export async function getContainers(sheetCfg, cfg) {
       supplier: text(r[c.supplier]),
       importer: text(r[c.importer]),
     }))
-    .filter(i => i.arrival && i.arrival >= from && i.arrival <= to)
+    .filter(i => i.arrival && i.arrival >= from)
     .sort((a, b) => a.arrival.localeCompare(b.arrival));
 
+  // המכולות שמגיעות בימים הקרובים; אם אין – הבאות בתור
+  let items = all.filter(i => i.arrival <= to);
+  const fallback = items.length === 0;
+  if (fallback) items = all.slice(0, cfg.fallbackCount ?? 3);
+
   console.log(`containers: ${items.length} in the next ${cfg.daysAhead} days`);
-  return { from, to, items };
+  return { from, to, fallback, items };
 }

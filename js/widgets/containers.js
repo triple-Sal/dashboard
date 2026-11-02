@@ -28,6 +28,8 @@ function dayLabel(iso) {
   const date = d.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
   if (iso === today) return `היום · ${date}`;
   if (iso === tomorrow) return `מחר · ${date}`;
+  const days = Math.round((new Date(iso + 'T12:00:00') - new Date(today + 'T12:00:00')) / 86400000);
+  if (days > 7) return `${d.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric', year: '2-digit' })} · בעוד ${days} ימים`;
   return `${d.toLocaleDateString('he-IL', { weekday: 'long' })} · ${date}`;
 }
 
@@ -71,9 +73,10 @@ export async function renderContainers(el) {
   el.innerHTML = `
     <div class="card-head">
       <span class="ico">${icon('ship')}</span>
-      <h2>${cfg.title} · ${cfg.daysAhead} הימים הקרובים</h2>
-      <span class="c-total">${data.items.length} מכולות</span>
+      <h2>${data.fallback ? `${cfg.title} · המכולות הבאות` : `${cfg.title} · ${cfg.daysAhead} הימים הקרובים`}</h2>
+      <span class="c-total">${data.items.length} ${data.items.length === 1 ? 'מכולה' : 'מכולות'}</span>
       <span class="updated">${timeAgo(data.updated)}</span>
     </div>
+    ${data.fallback && cards ? `<p class="note c-fallback">אין הגעות ב-${cfg.daysAhead} הימים הקרובים, אז מוצגות המכולות הבאות בתור</p>` : ''}
     ${cards ? `<div class="c-grid">${cards}</div>` : '<p class="error">אין מכולות צפויות בימים הקרובים 🌿</p>'}`;
 }
