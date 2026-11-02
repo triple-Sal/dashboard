@@ -39,6 +39,7 @@ jobs:
             data/news-israel.json
             data/news-world.json
             data/markets.json
+            data/weather.json
           key: data-${{ github.run_id }}
           restore-keys: data-
 
@@ -56,6 +57,7 @@ jobs:
             data/news-israel.json
             data/news-world.json
             data/markets.json
+            data/weather.json
           key: data-${{ github.run_id }}
 
       # מכינים תיקייה נקייה רק עם קבצי האתר

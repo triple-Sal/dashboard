@@ -373,3 +373,17 @@ body[data-time="night"][data-sky="fog"] .fog { opacity: .35; }
 }
 .c-badge svg { width: 13px; height: 13px; }
 @media (prefers-reduced-motion: reduce) { .container-card.release, .container-card.release .c-visual .box { animation: none; } }
+
+/* כפתור הסתר */
+.top-side { display: flex; align-items: center; gap: 12px; }
+.toggle-btn {
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  font: inherit; font-weight: 500; font-size: .95rem; color: #fff;
+  background: var(--accent); border: none; border-radius: 999px; padding: 8px 16px;
+  box-shadow: var(--shadow); transition: opacity .3s, transform .15s;
+}
+.toggle-btn svg { width: 18px; height: 18px; }
+.toggle-btn:hover { transform: translateY(-1px); }
+.toggle-btn.off { opacity: .45; }
+body[data-time="night"] .toggle-btn { color: #0f1d18; }
+[hidden] { display: none !important; }

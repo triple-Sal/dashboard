@@ -12,6 +12,7 @@ import { renderIndices } from './widgets/indices.js';
 import { renderWeather } from './widgets/weather.js';
 import { renderContainers } from './widgets/containers.js';
 import { initScene } from './scene.js';
+import { initToggle } from './widgets/toggle.js';
 
 const $ = id => document.getElementById(id);
 const R = CONFIG.refreshMinutes;
@@ -21,6 +22,7 @@ fillIcons();
 initScene();
 
 renderClock($('clock'));
+initToggle($('toggle-containers'), $('containers'));
 every(R.news,    () => renderTicker($('ticker-israel'), CONFIG.news.israel, 'news-israel.json'));
 every(R.news,    () => renderTicker($('ticker-world'),  CONFIG.news.world,  'news-world.json'));
 every(R.markets, () => renderCurrency($('currency')));

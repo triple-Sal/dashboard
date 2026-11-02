@@ -7,6 +7,7 @@
 import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { CONFIG } from '../config.js';
 import { getContainers } from './containers.mjs';
+import { weatherUrl } from '../js/data/weather-url.js';
 
 const DATA_DIR = new URL('../data/', import.meta.url);
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36';
@@ -147,6 +148,12 @@ await save('news-world.json', async () => ({
   source: CONFIG.news.world.source,
   items: (await getNews(CONFIG.news.world)).slice(0, CONFIG.news.maxHeadlines),
 }));
+
+await save('weather.json', async () => {
+  const d = await fetchJson(weatherUrl(CONFIG.weather));
+  if (!d.current || !d.daily) throw new Error('bad weather data');
+  return d;
+});
 
 await save('markets.json', async () => {
   const currencies = [];

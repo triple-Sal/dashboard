@@ -1,7 +1,9 @@
-// רכיב: מזג אוויר (נתונים חיים מ-Open-Meteo, שירות חינמי בלי הרשמה)
+// רכיב: מזג אוויר (מ-Open-Meteo, שירות חינמי בלי הרשמה).
+// הרובוט שומר את הנתונים כל 15 דקות; אם הם חסרים, הדף מנסה לקבל אותם ישירות.
 import { CONFIG } from '../../config.js';
 import { icon } from '../icons.js';
-import { timeAgo } from '../utils.js';
+import { timeAgo, loadData } from '../utils.js';
+import { weatherUrl } from '../data/weather-url.js';
 import { setWeatherScene } from '../scene.js';
 
 // קודי מזג האוויר הבינלאומיים: [תיאור בעברית, אייקון]
@@ -21,16 +23,16 @@ const info = code => CODES[code] || ['', 'cloud'];
 
 export async function renderWeather(el) {
   const w = CONFIG.weather;
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${w.latitude}&longitude=${w.longitude}`
-    + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day'
-    + '&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset'
-    + `&forecast_days=${w.forecastDays + 1}&timezone=Asia%2FJerusalem`;
-
   let d;
+  const fresh = (x) => x && x.current && x.daily && Date.now() - Date.parse(x.updated || 0) < 3 * 3600 * 1000;
   try {
-    const res = await fetch(url);
-    d = await res.json();
-    if (!res.ok || !d.current || !d.daily) throw new Error(d.reason || `HTTP ${res.status}`);
+    try { d = await loadData('weather.json'); } catch { d = null; }
+    if (!fresh(d)) {
+      const res = await fetch(weatherUrl(w));
+      d = await res.json();
+      if (!res.ok || !d.current || !d.daily) throw new Error(d.reason || `HTTP ${res.status}`);
+      d.updated = new Date().toISOString();
+    }
   } catch (e) {
     console.warn('weather failed:', e);
     // אם כבר מוצג מזג אוויר, משאירים אותו; אחרת מציגים הודעה ומנסים שוב בעוד דקה
@@ -61,7 +63,7 @@ export async function renderWeather(el) {
   }).join('');
 
   el.innerHTML = `
-    <div class="card-head"><span class="ico">${icon('pin')}</span><h2>מזג האוויר ב${w.city}</h2><span class="updated">${timeAgo(new Date().toISOString())}</span></div>
+    <div class="card-head"><span class="ico">${icon('pin')}</span><h2>מזג האוויר ב${w.city}</h2><span class="updated">${timeAgo(d.updated)}</span></div>
     <div class="weather-now">
       <div class="big-ico">${icon(nowIcon)}</div>
       <div>
