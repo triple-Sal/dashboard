@@ -58,6 +58,12 @@ export const CONFIG = {
     forecastDays: 3,      // כמה ימים קדימה להציג
   },
 
+  // ---------- טבלת אקסל בענן ----------
+  sheet: {
+    // הלינק לקובץ (גוגל דרייב). הרובוט קורא אותו בעזרת "חשבון הרובוט", בהרשאת צפייה בלבד
+    url: 'https://docs.google.com/spreadsheets/d/1UL4D0P7jezyUxBx_GwlHgEBMmYkc1bRm/edit',
+  },
+
   // ---------- כל כמה זמן לרענן את המסך (בדקות) ----------
   refreshMinutes: {
     news: 5,

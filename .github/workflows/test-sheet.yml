@@ -1,0 +1,21 @@
+# בדיקת חיבור לטבלה – מפעילים ידנית: Actions > Test sheet connection > Run workflow
+name: Test sheet connection
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['scripts/test-sheet.mjs', 'scripts/google-sheet.mjs']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund
+      - run: node scripts/test-sheet.mjs
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}

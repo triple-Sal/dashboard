@@ -62,3 +62,30 @@ export async function sheetTabs({ url }) {
   if (!res.ok) throw new Error(`Sheet info failed (${res.status})`);
   return (await res.json()).sheets.map(s => s.properties);
 }
+
+// ---------- קובץ Excel (xlsx) ששמור בגוגל דרייב ----------
+
+// פרטי הקובץ (שם וסוג) – בלי תוכן
+export async function driveFileInfo({ url }) {
+  const token = await getAccessToken(JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT));
+  const id = sheetIdFromUrl(url);
+  const res = await fetch(`https://www.googleapis.com/drive/v3/files/${id}?fields=name,mimeType,modifiedTime&supportsAllDrives=true`,
+    { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) {
+    const hint = res.status === 404 ? ' — not found: is the file shared with the robot?' : '';
+    throw new Error(`Drive file info failed (${res.status})${hint}`);
+  }
+  return res.json();
+}
+
+// מוריד את קובץ האקסל ומחזיר אותו כחוברת עבודה (workbook)
+export async function readExcelFromDrive({ url }) {
+  const XLSX = await import('xlsx');
+  const token = await getAccessToken(JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT));
+  const id = sheetIdFromUrl(url);
+  const res = await fetch(`https://www.googleapis.com/drive/v3/files/${id}?alt=media&supportsAllDrives=true`,
+    { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) throw new Error(`Drive download failed (${res.status})`);
+  const buf = Buffer.from(await res.arrayBuffer());
+  return XLSX.read(buf, { type: 'buffer', cellDates: true });
+}
