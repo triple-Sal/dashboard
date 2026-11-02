@@ -13,10 +13,9 @@ export function renderClock(el) {
         <div class="date">${now.toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: main.zone })}</div>
       </div>
       ${others.map(c => {
-        const h = +new Date().toLocaleString('en-US', { hour: 'numeric', hour12: false, timeZone: c.zone });
-        const night = h < 6 || h >= 19;
+        const flag = c.flag ? `<img class="clock-flag" src="https://flagcdn.com/${c.flag}.svg" alt="">` : '';
         return `<div class="clock-other" title="${c.zone}">
-          <div class="label">${night ? '🌙' : '☀️'} ${c.label}</div>
+          <div class="label">${flag}<span>${c.label}</span></div>
           <div class="time">${time(c.zone)}</div>
         </div>`;
       }).join('')}`;

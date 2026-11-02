@@ -9,11 +9,12 @@ export const CONFIG = {
   title: 'טריפל סל',
 
   // ---------- שעונים בראש הדף ----------
-  // הראשון מוצג גדול. אזורי זמן: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  // הראשון מוצג גדול. flag = קוד דגל של שתי אותיות. אזורי זמן: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   clocks: [
-    { label: 'ישראל',      zone: 'Asia/Jerusalem' },
-    { label: 'CHINA',      zone: 'Asia/Shanghai' },
-    { label: 'וושינגטון (WA)', zone: 'America/Los_Angeles' },
+    { label: 'ישראל',  zone: 'Asia/Jerusalem' },
+    { label: 'CHINA',  zone: 'Asia/Shanghai',       flag: 'cn' },
+    { label: 'WA, USA', zone: 'America/Los_Angeles', flag: 'us' },
+    { label: 'CHILE',  zone: 'America/Santiago',    flag: 'cl' },
   ],
 
   // ---------- באנרים רצים של חדשות ----------

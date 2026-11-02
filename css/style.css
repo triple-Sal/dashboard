@@ -126,12 +126,14 @@ body[data-time="night"] .cloud { background: rgba(200, 215, 230, 0.14); }
 .clock-main .time { font-size: 2rem; font-weight: 500; }
 .clock-main .date { color: var(--muted); font-size: .9rem; margin-top: 4px; }
 .clock-other {
-  width: 150px; box-sizing: border-box;   /* כל השעונים הקטנים באותו גודל */
+  width: 130px; box-sizing: border-box;   /* כל השעונים הקטנים באותו גודל */
   text-align: center; padding: 8px 14px; border-radius: 14px;
   background: var(--glass); border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
 }
-.clock-other .label { font-size: .8rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap; }
+.clock-other .label { font-size: .8rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap;
+  display: flex; align-items: center; justify-content: center; gap: 6px; direction: ltr; letter-spacing: .04em; font-weight: 500; }
+.clock-flag { width: 20px; height: 14px; object-fit: cover; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 .clock-other .time { font-size: 1.25rem; font-weight: 500; }
 @media (max-width: 700px) { .brand img { height: 48px; } .clock-main .time { font-size: 1.7rem; } }
 
