@@ -4,15 +4,12 @@
 //  ושומר אותם בתיקיית data כקבצים שהדאשבורד קורא.
 // ============================================================
 
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { CONFIG } from '../config.js';
 
 const DATA_DIR = new URL('../data/', import.meta.url);
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36';
 
-// כתובת האתר שכבר באוויר, כדי לשמור נתונים קודמים אם מקור נפל
-const [owner, repo] = (process.env.GITHUB_REPOSITORY || '/').split('/');
-const LIVE_SITE = owner ? `https://${owner}.github.io/${repo}/` : null;
 
 async function fetchText(url) {
   const res = await fetch(url, {
@@ -119,9 +116,9 @@ async function fxFallback(code) {
 }
 
 // ---------- שמירה, עם גיבוי לנתונים הקודמים ----------
+// הנתונים מהריצה הקודמת (GitHub שומר אותם בזיכרון בין ריצות)
 async function previous(file) {
-  if (!LIVE_SITE) return null;
-  try { return await fetchJson(LIVE_SITE + 'data/' + file); } catch { return null; }
+  try { return JSON.parse(await readFile(new URL(file, DATA_DIR), 'utf8')); } catch { return null; }
 }
 
 async function save(file, producer) {
@@ -135,7 +132,7 @@ async function save(file, producer) {
     if (!data) return;
   }
   await writeFile(new URL(file, DATA_DIR), JSON.stringify(data, null, 2));
-  console.log('✔', file, JSON.stringify(data).slice(0, 400));
+  console.log('✔', file);
 }
 
 await mkdir(DATA_DIR, { recursive: true });
