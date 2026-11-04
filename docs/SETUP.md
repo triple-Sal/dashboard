@@ -24,6 +24,11 @@
 ## פרטיות
 - נתוני המכולות לא נשמרים ב-repo, לא ב-cache של GitHub, ולא מודפסים בלוגים (הלוגים ציבוריים).
 
-## השלב הבא (מתוכנן)
-מעבר מגוגל דרייב ל-SharePoint: רישום אפליקציה ב-Microsoft Entra עם הרשאת `Sites.Selected`
-(קריאה לאתר אחד בלבד), שמירת הפרטים בסודות GitHub, והחלפת `readExcelFromDrive` בקריאה דרך Microsoft Graph.
+## מעבר ל-SharePoint (בתהליך)
+- רועי הוא ה-admin של Microsoft 365, ועושה את ההגדרות בעצמו.
+- הרשאה: `Files.SelectedOperations.Selected` (אפליקציה) – קריאה לקובץ אחד בלבד.
+  תיעוד: https://learn.microsoft.com/graph/permissions-selected-overview
+- ההרשאה לקובץ ניתנת ב-Graph Explorer: POST ל-`/drives/{driveId}/items/{itemId}/permissions` עם `roles: ["read"]`.
+- ⚠️ זה "מנתק ירושה" בקובץ: לקובץ יש הרשאות ייחודיות. משתמשים שמתווספים לקבוצות קיימות באתר מקבלים גישה כרגיל,
+  אבל הרשאות שמוסיפים ישירות לאתר לא חלות עליו. **לא ללחוץ "Restore inheritance"** בקובץ – זה מוריד את הגישה של הרובוט.
+- העברת הקובץ לספרייה/אתר אחר מבטלת את הגישה של הרובוט (צריך לתת שוב).
